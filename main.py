@@ -2,6 +2,7 @@ import tkinter as tk
 import cv2
 from PIL import Image, ImageTk
 import util
+
 # defining a class
 class App:
     # defining constructor
@@ -27,34 +28,31 @@ class App:
         # update geometry to ensure buttons are drawn before measuring
         self.main_window.update_idletasks()
         # for webcam label 
-        self.webcam_label=util.get_img_label(self.main_window)
-
-        self.webcam_label.place(x=10,y=0,width=700,height=500)
-            # for adding webcam
+        self.webcam_label = util.get_img_label(self.main_window)
+        self.webcam_label.place(x=10, y=0, width=700, height=500)
+        # for adding webcam
         self.add_webcam(self.webcam_label)
     
-        def add_webcam(self, label):
-            if 'cap'  not in self.__dict__:
-              self.cap=cv2.VideoCapture(0)
-
+    def add_webcam(self, label):
+        if 'cap' not in self.__dict__:
+            self.cap = cv2.VideoCapture(0)
             
-            self._label=label
-            self.process_webcam()
+        self._label = label
+        self.process_webcam()
 
     def process_webcam(self):
-        ret,frame=self.cap.read()
-        self.most_recent_capture_arr=frame
+        ret, frame = self.cap.read()
+        self.most_recent_capture_arr = frame
 
-        img_=cv2.cvtcolor(self.most_recent_capture_arr,cv2.COLOR_BGR2RGB)
-        self.most_recent_capture_pil=Image.fromarray(img_)
+        img_ = cv2.cvtColor(self.most_recent_capture_arr, cv2.COLOR_BGR2RGB)
+        self.most_recent_capture_pil = Image.fromarray(img_)
 
-        imgtk=ImageTk.PhotoImage(image=most_recent_capture_pil)
+        imgtk = ImageTk.PhotoImage(image=self.most_recent_capture_pil)
         
-
-
-
+        self._label.imgtk = imgtk
+        self._label.configure(image=imgtk)
         
-
+        self._label.after(20, self.process_webcam)
 
     def login(self):
         pass
@@ -64,7 +62,6 @@ class App:
 
     def start(self):
         self.main_window.mainloop()
-
 
 if __name__ == "__main__":
     app = App()
