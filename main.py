@@ -48,7 +48,6 @@ class App:
         self.most_recent_capture_pil = Image.fromarray(img_)
 
         imgtk = ImageTk.PhotoImage(image=self.most_recent_capture_pil)
-        
         self._label.imgtk = imgtk
         self._label.configure(image=imgtk)
         
@@ -58,7 +57,42 @@ class App:
         pass
 
     def register_new_user(self):
-        pass
+
+        self.register_new_user_window = tk.Toplevel(self.main_window)
+        self.register_new_user_window.geometry("1200x520+370+120")
+
+        x_position = 750
+        login_y = 300
+        gap = 20
+
+        self.accept_button_register_new_user_window = util.get_button(
+        self.register_new_user_window, 'Accept', 'green', self.accept_register_new_user)
+        self.accept_button_register_new_user_window.place(x=x_position, y=login_y)
+
+        self.start_again_button_register_new_user_window = util.get_button(
+            self.register_new_user_window, 'Start Again', 'red', self.accept_register_new_user)
+        self.start_again_button_register_new_user_window.place(
+            x=x_position, y=login_y + self.accept_button_register_new_user_window.winfo_reqheight() + gap)
+        
+
+        self.capture_label = util.get_img_label(self.register_new_user_window)
+        self.capture_label.place(x=10, y=0, width=700, height=500)
+
+        self.add_img_to_label(self.capture_label)
+
+
+    def add_img_to_label(self,label):
+        imgtk = ImageTk.PhotoImage(image=self.most_recent_capture_pil)
+        label.imgtk = imgtk
+        label.configure(image=imgtk)
+        self.register_new_user_capture=self.most_recent_capture_arr.copy()
+        
+
+
+
+    def accept_register_new_user(self):
+        pass 
+    
 
     def start(self):
         self.main_window.mainloop()
