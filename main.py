@@ -32,6 +32,13 @@ class App:
         self.webcam_label.place(x=10, y=0, width=700, height=500)
         # for adding webcam
         self.add_webcam(self.webcam_label)
+
+        # showing the path for the directory 
+        self.db.dir='./db'
+        if not  os.path.exists(self.db_dir):
+            os.mkdir(self.db_dir)
+            
+
     
     def add_webcam(self, label):
         if 'cap' not in self.__dict__:
@@ -69,16 +76,23 @@ class App:
         self.register_new_user_window, 'Accept', 'green', self.accept_register_new_user)
         self.accept_button_register_new_user_window.place(x=x_position, y=login_y)
 
-        self.start_again_button_register_new_user_window = util.get_button(
-            self.register_new_user_window, 'Start Again', 'red', self.accept_register_new_user)
-        self.start_again_button_register_new_user_window.place(
-            x=x_position, y=login_y + self.accept_button_register_new_user_window.winfo_reqheight() + gap)
+        self.start_again_button_register_new_user_window = util.get_button(self.register_new_user_window, 'Start Again', 'red', self.start_again_register_new_user)
+        self.start_again_button_register_new_user_window.place(x=x_position, y=login_y + self.accept_button_register_new_user_window.winfo_reqheight() + gap)
         
 
         self.capture_label = util.get_img_label(self.register_new_user_window)
         self.capture_label.place(x=10, y=0, width=700, height=500)
 
         self.add_img_to_label(self.capture_label)
+
+        self.enter_text_register_new_user=util.get_entry_text(self.register_new_user_window)
+        self.enter_text_register_new_user.place(x=750,y=150)
+        
+        self.text_label_register_new_user = tk.Label(self.register_new_user_window, text="Enter Your UserName:", font=("Arial", 12), bg='white', fg='black')
+        self.text_label_register_new_user.place(x=750, y=70)
+
+
+
 
 
     def add_img_to_label(self,label):
@@ -87,6 +101,10 @@ class App:
         label.configure(image=imgtk)
         self.register_new_user_capture=self.most_recent_capture_arr.copy()
         
+    def start_again_register_new_user(self):
+        self.register_new_user_window.destroy()
+
+
 
 
 
